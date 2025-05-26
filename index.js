@@ -11,7 +11,11 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors());
+app.use(cors({
+  origin: '*',              // test için tüm domainlere izin ver
+  methods: ['GET', 'POST'], // sadece gerekli methodlara izin ver
+  allowedHeaders: ['Content-Type']
+}));
 app.use(bodyParser.json());
 
 // MongoDB'ye bağlan
