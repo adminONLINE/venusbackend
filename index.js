@@ -23,7 +23,13 @@ mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log('MongoDB bağlantısı başarılı'))
+then(() => {
+  console.log('MongoDB bağlantısı başarılı');
+
+  app.listen(PORT, () => {
+    console.log(`Server çalışıyor: http://localhost:${PORT}`);
+  });
+})
 .catch((err) => console.error('MongoDB bağlantı hatası:', err));
 
 // Şema tanımı
@@ -41,6 +47,7 @@ app.post('/submit-form', async (req, res) => {
   const { name, phone, email, message } = req.body;
 
   try {
+    console.log("Gelen veri:", req.body);
     const newForm = new Form({ name, phone, email, message });
     await newForm.save();
     res.json({ success: true, message: 'Form başarıyla alındı!' });
@@ -50,6 +57,4 @@ app.post('/submit-form', async (req, res) => {
 }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server çalışıyor: http://localhost:${PORT}`);
-});
+
