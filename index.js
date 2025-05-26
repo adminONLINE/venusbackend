@@ -45,8 +45,9 @@ app.post('/submit-form', async (req, res) => {
     await newForm.save();
     res.json({ success: true, message: 'Form başarıyla alındı!' });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Bir hata oluştu.' });
-  }
+  console.error("Hata:", error);
+  res.status(500).json({ success: false, message: 'Sunucu hatası: ' + error.message });
+}
 });
 
 app.listen(PORT, () => {
