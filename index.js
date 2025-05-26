@@ -50,7 +50,7 @@ app.post('/submit-form', async (req, res) => {
     console.log("Gelen veri:", req.body);
     const newForm = new Form({ name, phone, email, message });
     await newForm.save();
-    res.json({ success: true, message: 'Form başarıyla alındı!' });
+    res.json({ success: true, message: 'Formunuz bize ulaştı. Hekimlerimiz en kısa sürede sizinle iletişime geçecek! ☺️' });
   } catch (error) {
   console.error("Hata:", error);
   res.status(500).json({ success: false, message: 'Sunucu hatası: ' + error.message });
