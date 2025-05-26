@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 
 
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "cokgizliadmin123";
+const ADMIN_TOKEN = "tartarus-super-token"; // rastgele bir şey
 
 
 
@@ -60,3 +62,24 @@ app.post('/submit-form', async (req, res) => {
 });
 
 
+app.post('/admin-login', (req, res) => {
+  const { password } = req.body;
+  if (password === ADMIN_PASSWORD) {
+    res.json({ success: true, token: ADMIN_TOKEN });
+  } else {
+    res.json({ success: false });
+  }
+});
+
+// Korumalı formları listeleme
+app.get('/get-forms', (req, res) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || authHeader !== `Bearer ${ADMIN_TOKEN}`) {
+    return res.status(401).json({ error: 'Yetkisiz erişim' });
+  }
+
+  Form.find().sort({ createdAt: -1 })
+    .then(forms => res.json(forms))
+    .catch(err => res.status(500).json({ error: 'Kayıtlar alınamadı.' }));
+});
