@@ -14,9 +14,9 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(cors({
-  origin: '*',              // test için tüm domainlere izin ver
-  methods: ['GET', 'POST'], // sadece gerekli methodlara izin ver
-  allowedHeaders: ['Content-Type']
+  origin: '*',
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(bodyParser.json());
 
