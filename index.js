@@ -38,6 +38,8 @@ const formSchema = new mongoose.Schema({
   phone: String,
   email: String,
   message: String
+}, {
+  timestamps: true // ⬅️ Bu satır her kayda createdAt & updatedAt alanı ekler
 });
 
 const Form = mongoose.model('Form', formSchema);
