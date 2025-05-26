@@ -1,0 +1,46 @@
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+require('dotenv').config();
+
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+app.use(cors());
+app.use(bodyParser.json());
+
+// MongoDB'ye bağlan
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log('MongoDB bağlantısı başarılı'))
+.catch((err) => console.error('MongoDB bağlantı hatası:', err));
+
+// Şema tanımı
+const formSchema = new mongoose.Schema({
+  name: String,
+  phone: String,
+  email: String,
+  message: String
+});
+
+const Form = mongoose.model('Form', formSchema);
+
+// POST endpoint
+app.post('/submit-form', async (req, res) => {
+  const { name, phone, email, message } = req.body;
+
+  try {
+    const newForm = new Form({ name, phone, email, message });
+    await newForm.save();
+    res.json({ success: true, message: 'Form başarıyla alındı!' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Bir hata oluştu.' });
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`Server çalışıyor: http://localhost:${PORT}`);
+});
