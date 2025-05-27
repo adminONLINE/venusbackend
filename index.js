@@ -83,3 +83,7 @@ app.get('/get-forms', (req, res) => {
     .then(forms => res.json(forms))
     .catch(err => res.status(500).json({ error: 'Kayıtlar alınamadı.' }));
 });
+
+app.get('/ping', (req, res) => {
+  res.status(200).send('Render çalışıyor 🟢');
+});
